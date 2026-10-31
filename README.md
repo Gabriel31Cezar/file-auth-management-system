@@ -1,76 +1,71 @@
 # File & Auth Management System
 
-Aplicação web de portfólio que combina autenticação de usuários com organização de arquivos. A pessoa usuária cria uma conta, entra com um token JWT, envia arquivos e acompanha o histórico em um dashboard.
+Aplicação web de portfólio que reúne autenticação de usuários e organização de arquivos. A pessoa usuária cria uma conta, entra com um token JWT, envia arquivos e acompanha a organização pelo dashboard.
 
 > **Status:** aplicação integrada para execução local. Uma URL pública de demonstração ainda não foi configurada.
 
-## Objetivo do projeto
+## Objetivo
 
-O objetivo é reunir, em uma aplicação web, duas funcionalidades:
+O objetivo do projeto é combinar, em uma única aplicação web, uma API de autenticação de usuários com um organizador de arquivos por categoria e data.
 
-- Autenticação de usuários por meio de uma API.
-- Organização de arquivos por categoria e data.
-
-O desenvolvimento foi feito em etapas no PyCharm, acompanhando a configuração do ambiente, a criação do backend, a autenticação, o organizador e a integração com a interface web.
-
-## Funcionalidades
-
-- Cadastro de usuário com e-mail, nome de usuário e senha.
-- Login usando e-mail ou nome de usuário.
-- Senhas armazenadas com hash.
-- Autenticação JWT e proteção das rotas privadas.
-- Envio de arquivos por seleção ou arrastar e soltar.
-- Limite de 50 MB por arquivo.
-- Organização dos arquivos por categoria e mês.
-- Tratamento de nomes repetidos para evitar sobrescrita.
-- Histórico separado por usuário, com busca e filtro por categoria.
-- Dashboard com quantidade de arquivos, espaço ocupado e categoria mais ativa.
-- Gráfico de distribuição por categoria.
-- Tema claro e escuro.
+O frontend usa HTML, CSS e JavaScript puro, sem React. O backend usa FastAPI. O gráfico do dashboard usa Chart.js carregado por CDN, sem chave de API.
 
 ## Processo de desenvolvimento
 
-O projeto evoluiu de uma API de autenticação e um organizador de arquivos para uma aplicação web integrada:
+Desenvolvi o projeto em etapas no PyCharm, acompanhando a implementação de cada parte:
 
-1. Definição do objetivo e das funcionalidades do sistema.
-2. Configuração do ambiente Python no PyCharm.
-3. Criação da API com FastAPI e do banco SQLite com SQLAlchemy.
-4. Implementação do cadastro, login, hash de senhas, JWT e rotas protegidas.
-5. Desenvolvimento da organização de arquivos por extensão, categoria e mês.
-6. Criação da interface em HTML, CSS e JavaScript.
-7. Integração da interface com o backend para autenticação, envio de arquivos e consulta ao histórico.
+1. Defini o objetivo e os recursos principais da aplicação.
+2. Configurei o ambiente Python e iniciei a API com FastAPI.
+3. Implementei cadastro, login, hash de senhas e autenticação JWT.
+4. Adicionei o banco SQLite e os modelos para usuários e arquivos.
+5. Desenvolvi o organizador por categoria e data, com proteção contra sobrescrita.
+6. Criei a interface de login, cadastro e dashboard com HTML, CSS e JavaScript.
+7. Conectei a interface à API para autenticação, envio de arquivos e consulta ao histórico.
+
+## Funcionalidades
+
+| Área | Funcionalidade |
+| --- | --- |
+| Contas | Cadastro com e-mail, nome de usuário e senha. |
+| Autenticação | Login com e-mail ou nome de usuário e token JWT. |
+| Segurança | Hash de senhas e proteção de rotas privadas. |
+| Upload | Seleção de arquivos ou envio por arrastar e soltar. |
+| Organização | Classificação por extensão, categoria e mês. |
+| Duplicados | Identificação de nomes repetidos e prevenção de sobrescrita. |
+| Histórico | Registros separados por usuário, com busca e filtro. |
+| Dashboard | Contagem de arquivos, espaço ocupado e categoria mais ativa. |
+| Aparência | Gráfico de categorias e tema claro ou escuro. |
 
 ## Tecnologias
 
-- **Python** para o backend.
-- **FastAPI** para a API e o servidor web.
-- **SQLAlchemy** para persistência de dados.
-- **SQLite** como banco de dados local.
-- **Pydantic** para validação de dados.
-- **JWT** com PyJWT para autenticação.
-- **pwdlib** para hash e verificação de senhas.
-- **HTML, CSS e JavaScript** para o frontend.
-- **Chart.js** para o gráfico do dashboard.
+| Camada | Tecnologias |
+| --- | --- |
+| Backend | Python, FastAPI e Uvicorn. |
+| Dados | SQLAlchemy e SQLite. |
+| Validação | Pydantic e `email-validator`. |
+| Autenticação | JWT com PyJWT e hash de senhas com `pwdlib`. |
+| Frontend | HTML, CSS e JavaScript puro. |
+| Gráfico | Chart.js. |
 
-## Organização dos arquivos
+## Categorias de arquivos
 
-O backend classifica arquivos por extensão nas seguintes categorias:
+| Categoria | Exemplos de extensões |
+| --- | --- |
+| Documentos | PDF, DOCX, TXT, ODT, MD |
+| Apresentações | PPTX, PPT, ODP |
+| Planilhas | XLSX, XLS, CSV, TSV |
+| Imagens | JPG, PNG, GIF, SVG, WEBP, RAW |
+| Design e 3D | PSD, AI, DWG, STL, OBJ, BLEND |
+| Vídeos | MP4, MOV, AVI, MKV, WEBM |
+| Áudio | MP3, WAV, FLAC, OGG, M4A |
+| Compactados | ZIP, RAR, 7Z, TAR, GZ |
+| Bancos de dados | SQL, DB, SQLITE, MDB |
+| Código | JS, TS, PY, HTML, CSS, JAVA, JSON |
+| Executáveis e instaladores | EXE, MSI, APK, DEB, ISO |
+| Fontes | TTF, OTF, WOFF, WOFF2 |
+| Outros | Extensões não classificadas nas categorias anteriores |
 
-- Documentos
-- Apresentações
-- Planilhas
-- Imagens
-- Design e 3D
-- Vídeos
-- Áudio
-- Compactados
-- Bancos de dados
-- Código
-- Executáveis e instaladores
-- Fontes
-- Outros
-
-Os arquivos enviados são organizados em pastas por usuário, categoria e mês. O banco registra o nome original, categoria, destino, tamanho, status e data do envio. Um arquivo com nome repetido para a mesma conta é identificado como duplicado; o organizador evita sobrescrever o arquivo existente.
+Os arquivos ficam organizados por usuário, categoria e mês da data do arquivo. Quando um nome já existe no destino, o sistema escolhe outro nome para evitar sobrescrever o arquivo. Um envio com o mesmo nome original para a mesma conta é identificado como duplicado no histórico.
 
 ## Estrutura do projeto
 
@@ -86,7 +81,8 @@ file-auth-management-system/
 │   ├── models.py
 │   ├── organizer.py
 │   ├── schemas.py
-│   └── security.py
+│   ├── security.py
+│   └── teste_organizer.py
 ├── frontend/
 │   ├── app.js
 │   ├── index.html
@@ -97,17 +93,17 @@ file-auth-management-system/
 └── README.md
 ```
 
-O banco SQLite e os arquivos enviados são criados localmente e ficam fora do controle de versão.
+O banco de dados local é criado em `backend/app.db`. Os arquivos enviados ficam em `backend/storage/`. Esses dados locais são ignorados pelo Git.
 
 ## Requisitos
 
 - Python 3.10 ou superior.
 - Git.
-- Conexão com a internet para carregar Chart.js e as fontes externas usadas na interface.
+- Conexão com a internet para carregar Chart.js e as fontes externas da interface.
 
 ## Instalação no Windows
 
-Abra o terminal na pasta principal do projeto e crie um ambiente virtual:
+Abra um terminal na pasta principal do projeto e crie um ambiente virtual:
 
 ```powershell
 py -m venv .venv
@@ -131,7 +127,7 @@ ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 ```
 
-Não compartilhe nem publique o arquivo `.env`. Ele contém a chave usada para assinar os tokens JWT.
+Não compartilhe nem envie o arquivo `.env` ao GitHub. Ele contém a chave secreta usada para assinar os tokens JWT.
 
 ## Como executar
 
@@ -142,52 +138,57 @@ cd backend
 uvicorn main:app --reload
 ```
 
-Depois, abra no navegador:
+A aplicação e a documentação ficam disponíveis em:
 
-- Aplicação: http://127.0.0.1:8000/app/
+- Interface web: http://127.0.0.1:8000/app/
 - Documentação interativa da API: http://127.0.0.1:8000/docs
 - Verificação de saúde: http://127.0.0.1:8000/saude
 
-A página `/` redireciona para a interface em `/app/`.
+A rota `/` redireciona para `/app/`.
 
 ## Rotas da API
 
-- `GET /saude` — informa se a API está no ar.
-- `POST /auth/register` — cria uma conta.
-- `POST /auth/login` — autentica e retorna um token JWT.
-- `GET /auth/me` — retorna os dados da conta autenticada.
-- `POST /files/upload` — envia e organiza um arquivo.
-- `GET /files` — lista o histórico da conta autenticada; aceita busca, categoria e limite.
+| Método | Rota | Acesso | Descrição |
+| --- | --- | --- | --- |
+| GET | `/` | Público | Redireciona para a interface web. |
+| GET | `/app/` | Público | Abre o frontend. |
+| GET | `/saude` | Público | Informa se a API está no ar. |
+| POST | `/auth/register` | Público | Cria uma conta. |
+| POST | `/auth/login` | Público | Autentica e retorna um token JWT. |
+| GET | `/auth/me` | JWT | Retorna os dados da conta autenticada. |
+| POST | `/files/upload` | JWT | Recebe e organiza um arquivo. |
+| GET | `/files` | JWT | Lista o histórico da conta autenticada. |
 
-As rotas de arquivos e a rota `/auth/me` exigem autenticação. No envio, o arquivo é recebido como `multipart/form-data` no campo `arquivo`. O login recebe `username` e `password`; o campo `username` aceita o nome de usuário ou o e-mail.
+O envio usa `multipart/form-data` no campo `arquivo`. O login recebe `username` e `password`; `username` aceita o nome de usuário ou o e-mail. A rota de histórico aceita os parâmetros `busca`, `categoria` e `limite`.
 
 ## Fluxo de uso
 
 1. Crie uma conta pela interface.
-2. Entre usando e-mail ou nome de usuário e senha.
-3. Envie um arquivo pelo seletor ou arraste-o para a área de envio.
+2. Entre com e-mail ou nome de usuário e senha.
+3. Envie arquivos pela área de upload.
 4. Confira a categoria, o status e o destino no histórico.
 5. Use a busca e o filtro para localizar arquivos.
-6. Saia da conta e entre com outro usuário para acessar o histórico separado daquela conta.
+6. Saia e entre com outra conta para acessar o histórico separado dela.
 
-## Armazenamento e segurança
+## Segurança e armazenamento
 
-- A API limita o tamanho de cada envio a 50 MB.
-- Cada registro de arquivo pertence a uma conta de usuário.
-- As senhas são armazenadas como hash, nunca como texto puro.
-- Os endpoints privados exigem um token JWT válido.
-- A chave JWT fica em `backend/.env`, arquivo que não deve ser enviado ao GitHub.
-- O banco e os arquivos são armazenados no computador onde o servidor está rodando.
+- As senhas são armazenadas como hash, não como texto puro.
+- As rotas privadas exigem um token JWT válido.
+- Cada registro de arquivo pertence a uma conta.
+- O tamanho máximo por envio é 50 MB.
+- A chave JWT é carregada de `backend/.env`.
+- Banco e arquivos são armazenados localmente no computador que executa o servidor.
+- O token da interface fica em `sessionStorage` durante a sessão do navegador.
 
-Este projeto é voltado a aprendizado e portfólio. Para disponibilizá-lo em produção, será necessário configurar hospedagem, armazenamento persistente para o banco e os arquivos, e revisar as configurações de segurança do ambiente público.
+Este projeto foi desenvolvido para aprendizado e portfólio. Antes de uma publicação para uso real, é necessário configurar hospedagem e armazenamento persistente para o banco e os arquivos, além de revisar as configurações de segurança do ambiente público.
 
-## Próximos aprimoramentos
+## Próximas melhorias
 
-- Publicar uma demonstração e adicionar sua URL a este README.
-- Criar testes automatizados para autenticação e envio de arquivos.
+- Publicar uma demonstração e adicionar a URL aqui.
+- Criar testes automatizados para autenticação, envio e separação de arquivos por usuário.
 - Documentar a configuração de produção.
-- Preparar imagens do dashboard para apresentar o projeto no portfólio.
+- Adicionar imagens do dashboard para apresentação no portfólio.
 
 ## Licença
 
-Consulte o arquivo [`LICENSE`](LICENSE) para ver os termos de uso.
+Consulte o arquivo [`LICENSE`](LICENSE) para conhecer os termos de uso.
