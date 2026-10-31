@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>File & Auth Management System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<button class="theme-btn" id="themeBtn" aria-label="Alternar tema">◐</button>
+
+<!-- AUTENTICAÇÃO -->
+<main id="authView" class="auth">
+  <section class="auth-card login">
+    <h1>File & Auth<br>Management System</h1>
+    <p class="muted">API JWT e organizador de arquivos, numa só interface.</p>
+    <div class="tabs">
+      <button class="tab on" data-mode="login" type="button">Entrar</button>
+      <button class="tab" data-mode="register" type="button">Criar conta</button>
+    </div>
+    <form id="authForm" novalidate>
+      <label class="only-login">E-mail ou usuário
+        <input id="identifier" placeholder="voce@exemplo.com ou ana_dev" autocomplete="username"><small></small>
+      </label>
+      <label class="only-reg">E-mail
+        <input id="email" type="email" placeholder="voce@exemplo.com" autocomplete="email"><small></small>
+      </label>
+      <label class="only-reg">Usuário
+        <input id="user" placeholder="ex.: ana_dev" autocomplete="username"><small></small>
+      </label>
+      <label>Senha
+        <input id="pass" type="password" placeholder="Mínimo 8 caracteres, com letras e números" autocomplete="current-password"><small></small>
+      </label>
+      <p class="msg" id="formMsg" role="alert"></p>
+      <button class="btn" id="submitBtn" type="submit">Entrar</button>
+    </form>
+  </section>
+</main>
+
+<!-- DASHBOARD -->
+<div id="dashView" class="dash" hidden>
+  <header class="top">
+    <div><h2>Painel de controle</h2><p class="muted" id="welcome"></p></div>
+    <div class="top-r"><span class="chip" id="tokenChip" title="Token JWT ativo"></span><button class="btn ghost" id="logoutBtn" type="button">Sair</button></div>
+  </header>
+
+  <section class="stats">
+    <article class="stat"><span class="muted">Arquivos organizados</span><strong id="sTotal">0</strong></article>
+    <article class="stat"><span class="muted">Espaço total</span><strong id="sSize">0 KB</strong></article>
+    <article class="stat"><span class="muted">Categoria mais ativa</span><strong id="sTop">–</strong></article>
+  </section>
+
+  <section class="grid">
+    <div class="panel">
+      <h3>Enviar arquivos</h3>
+      <div class="drop" id="drop" tabindex="0">
+        <p><b>Arraste arquivos aqui</b> ou clique para selecionar</p>
+        <p class="muted">Eles são enviados à API e organizados por categoria e data.</p>
+        <input type="file" id="fileInput" multiple hidden>
+      </div>
+      <ul class="queue" id="queue"></ul>
+    </div>
+    <div class="panel">
+      <h3>Distribuição por categoria</h3>
+      <div class="chart-wrap"><canvas id="chart"></canvas></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="tbl-head">
+      <h3>Histórico recente</h3>
+      <div class="filters">
+        <input id="search" type="search" placeholder="Buscar por nome…" aria-label="Buscar">
+        <select id="catFilter" aria-label="Filtrar categoria"></select>
+      </div>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Arquivo</th><th>Categoria</th><th>Destino</th><th>Tamanho</th><th>Status</th></tr></thead>
+        <tbody id="rows"><tr><td colspan="5" class="empty">Nenhum arquivo ainda. Envie o primeiro na área acima.</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
